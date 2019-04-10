@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   geometry_msgs
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -46,12 +47,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+# Generate messages in the 'msg' folder
+add_message_files(
+  FILES
+  Input.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -67,11 +67,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Action2.action
 # )
 
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+# Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -102,7 +103,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package()
+catkin_package(
+  CATKIN_DEPENDS message_runtime
+)
 
 ###########
 ## Build ##
@@ -129,6 +132,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(read_csv src/read_csv.cpp)
+add_executable(odometry src/odometry_model.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -139,8 +143,8 @@ add_executable(read_csv src/read_csv.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(read_csv ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(odometry ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 # Specify libraries to link a library or executable target against
-target_link_libraries(read_csv
-  ${catkin_LIBRARIES}
-)
+target_link_libraries(read_csv ${catkin_LIBRARIES})
+target_link_libraries(odometry ${catkin_LIBRARIES})
