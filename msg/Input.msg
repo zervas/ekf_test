@@ -1,2 +1,2 @@
-geometry_msgs/Pose2D odom
-geometry_msgs/Point[8] sensors
+ekf_test/EKFMotion motion
+ekf_test/RangeBearing[] sensors

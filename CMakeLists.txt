@@ -51,6 +51,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   FILES
   Input.msg
+  EKFMotion.msg
+  RangeBearing.msg
 )
 
 ## Generate services in the 'srv' folder
